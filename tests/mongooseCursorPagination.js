@@ -27,7 +27,7 @@ describe('mongooseCursorPagination', () => {
       .exec();
 
     expect(results).toHaveLength(1);
-    expect(results[0].body).toBe('2');
+    expect(results[0].node.body).toBe('2');
     expect(pageInfo.hasNextPage).toBe(true);
 
     const { results: results2, pageInfo: pageInfo2 } = await Comment.find({})
@@ -37,7 +37,7 @@ describe('mongooseCursorPagination', () => {
       .exec();
 
     expect(results2).toHaveLength(1);
-    expect(results2[0].body).toBe('1');
+    expect(results2[0].node.body).toBe('1');
     expect(pageInfo2.hasNextPage).toEqual(false);
   });
 
@@ -62,7 +62,7 @@ describe('mongooseCursorPagination', () => {
       .exec();
 
     expect(results).toHaveLength(1);
-    expect(results[0].body).toBe('2');
+    expect(results[0].node.body).toBe('2');
     expect(pageInfo.hasNextPage).toBe(true);
 
     const { results: results2, pageInfo: pageInfo2 } = await Comment.find({})
@@ -73,7 +73,7 @@ describe('mongooseCursorPagination', () => {
       .exec();
 
     expect(results2).toHaveLength(1);
-    expect(results2[0].body).toBe('1');
+    expect(results2[0].node.body).toBe('1');
     expect(pageInfo2.hasNextPage).toEqual(false);
   });
 
@@ -109,7 +109,7 @@ describe('mongooseCursorPagination', () => {
       .exec();
 
     expect(results2).toHaveLength(1);
-    expect(results2[0].body).toBe('2');
+    expect(results2[0].node.body).toBe('2');
     expect(pageInfo2.hasNextPage).toEqual(true);
   });
 
