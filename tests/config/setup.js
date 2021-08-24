@@ -1,4 +1,6 @@
-const { default: MongoMemoryServer } = require('mongodb-memory-server')
+const {
+  MongoMemoryServer
+} = require('mongodb-memory-server')
 const mongoose = require('mongoose')
 
 require('./models')
@@ -6,26 +8,28 @@ require('./models')
 let mongoServer
 
 beforeAll(async () => {
-   mongoServer = new MongoMemoryServer()
-   const mongoUri = await mongoServer.getConnectionString()
-   await mongoose.connect(mongoUri, { useNewUrlParser: true })
+  mongoServer = await MongoMemoryServer.create()
+  await mongoose.connect(mongoServer.getUri(), {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+      useUnifiedTopology: true
+  })
 })
 
-afterAll(() => {
-   mongoose.disconnect()
-   mongoServer.stop()
-})
+afterAll(async () => {
+   await mongoose.disconnect();
+});
 
 // Empty the database before each test
 beforeEach(async () => {
-   await Promise.all(
-      Object.values(mongoose.connection.collections).map(collection => (
+  await Promise.all(
+    Object.values(mongoose.connection.collections).map(collection => (
          new Promise((resolve, reject) => {
-            collection.remove((err) => {
-               if (err) return reject(err)
-               resolve()
-            })
-         })
-      ))
-   )
+            collection.deleteMany((err) => {
+          if (err) return reject(err)
+          resolve()
+        })
+      })
+    ))
+  )
 })
