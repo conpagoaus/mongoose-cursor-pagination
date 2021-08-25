@@ -20,11 +20,13 @@ describe('mongooseCursorPagination', () => {
       'author.lastName': 'Doe',
     });
 
-    const { results, pageInfo } = await Comment.find({})
+    const { totalCount, results, pageInfo } = await Comment.find({})
       .limit(1)
       .sort('-date')
       .paginate()
       .exec();
+
+    expect(totalCount).toBe(2);
 
     expect(results).toHaveLength(1);
     expect(results[0].node.body).toBe('2');
@@ -96,11 +98,13 @@ describe('mongooseCursorPagination', () => {
       'author.lastName': 'Doe',
     });
 
-    const { results, pageInfo } = await Comment.find({})
+    const { totalCount, results, pageInfo } = await Comment.find({})
       .limit(1)
       .sort('-date')
       .paginate()
       .exec();
+
+    expect(totalCount).toBe(3);
 
     const { results: results2, pageInfo: pageInfo2 } = await Comment.find({})
       .limit(1)
