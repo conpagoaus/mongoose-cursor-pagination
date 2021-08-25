@@ -1,5 +1,5 @@
 {
-  "name": "@mother/mongoose-cursor-pagination",
+  "name": "@openquantum/mongoose-cursor-pagination",
   "version": "0.1.5",
   "description": "Easy-to-use, scalable, cursor pagination plugin for mongoose",
   "license": "MIT",
@@ -14,6 +14,7 @@
     "cursor",
     "graphql"
   ],
+  "private": false,
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/mother/mongoose-cursor-pagination.git"
@@ -26,7 +27,7 @@
     "test": "test"
   },
   "engines": {
-    "node": ">= 8.0.0"
+    "node": ">=10.0.0"
   },
   "files": [
     "lib"
