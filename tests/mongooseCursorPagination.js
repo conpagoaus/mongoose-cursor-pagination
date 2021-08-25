@@ -67,12 +67,18 @@ describe('mongooseCursorPagination', () => {
     expect(results[0].node.body).toBe('2');
     expect(pageInfo.hasNextPage).toBe(true);
 
-    const { results: results2, pageInfo: pageInfo2 } = await Comment.find({})
+    const {
+      totalCount,
+      results: results2,
+      pageInfo: pageInfo2,
+    } = await Comment.find({})
       .limit(1)
       .sort('-date')
       .lean()
       .paginate(pageInfo.nextCursor)
       .exec();
+
+    expect(totalCount).toBe(2);
 
     expect(results2).toHaveLength(1);
     expect(results2[0].node.body).toBe('1');
