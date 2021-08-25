@@ -30,7 +30,7 @@ describe('mongooseCursorPagination', () => {
 
     expect(results).toHaveLength(1);
     expect(results[0].node.body).toBe('2');
-    expect(pageInfo.hasNextPage).toBe(true);
+    expect(pageInfo.hasNextPage).toBe(false);
 
     const { results: results2, pageInfo: pageInfo2 } = await Comment.find({})
       .limit(1)
@@ -39,7 +39,7 @@ describe('mongooseCursorPagination', () => {
       .exec();
 
     expect(results2).toHaveLength(1);
-    expect(results2[0].node.body).toBe('1');
+    expect(results2[0].node.body).toBe('2');
     expect(pageInfo2.hasNextPage).toEqual(false);
   });
 
@@ -65,7 +65,7 @@ describe('mongooseCursorPagination', () => {
 
     expect(results).toHaveLength(1);
     expect(results[0].node.body).toBe('2');
-    expect(pageInfo.hasNextPage).toBe(true);
+    expect(pageInfo.hasNextPage).toBe(false);
 
     const {
       totalCount,
@@ -81,7 +81,7 @@ describe('mongooseCursorPagination', () => {
     expect(totalCount).toBe(2);
 
     expect(results2).toHaveLength(1);
-    expect(results2[0].node.body).toBe('1');
+    expect(results2[0].node.body).toBe('2');
     expect(pageInfo2.hasNextPage).toEqual(false);
   });
 
@@ -105,7 +105,7 @@ describe('mongooseCursorPagination', () => {
     });
 
     const { totalCount, results, pageInfo } = await Comment.find({})
-      .limit(1)
+      .limit(3)
       .sort('-date')
       .paginate()
       .exec();
@@ -115,11 +115,11 @@ describe('mongooseCursorPagination', () => {
     const { results: results2, pageInfo: pageInfo2 } = await Comment.find({})
       .limit(1)
       .sort('-date')
-      .paginate(null, pageInfo.nextCursor)
+      .paginate(null, results[1].cursor)
       .exec();
 
     expect(results2).toHaveLength(1);
-    expect(results2[0].node.body).toBe('2');
+    expect(results2[0].node.body).toBe('1');
     expect(pageInfo2.hasNextPage).toEqual(true);
   });
 
@@ -166,7 +166,7 @@ describe('mongooseCursorPagination', () => {
 
     query.exec = mockExec.bind(query);
     const limit = await query.exec();
-    expect(limit).toBe(101);
+    expect(limit).toBe(100);
   });
 
   it('Applies a default sort', async () => {
