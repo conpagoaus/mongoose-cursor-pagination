@@ -22,19 +22,19 @@ describe('mongooseCursorPagination', () => {
 
     const { totalCount, results, pageInfo } = await Comment.find({})
       .limit(1)
-      .sort('-date')
+      .sort('date')
       .paginate()
       .exec();
 
     expect(totalCount).toBe(2);
 
     expect(results).toHaveLength(1);
-    expect(results[0].node.body).toBe('2');
-    expect(pageInfo.hasNextPage).toBe(false);
+    expect(results[0].node.body).toBe('1');
+    expect(pageInfo.hasNextPage).toBe(true);
 
     const { results: results2, pageInfo: pageInfo2 } = await Comment.find({})
       .limit(1)
-      .sort('-date')
+      .sort('date')
       .paginate(pageInfo.nextCursor)
       .exec();
 
@@ -65,7 +65,7 @@ describe('mongooseCursorPagination', () => {
 
     expect(results).toHaveLength(1);
     expect(results[0].node.body).toBe('2');
-    expect(pageInfo.hasNextPage).toBe(false);
+    expect(pageInfo.hasNextPage).toBe(true);
 
     const {
       totalCount,
@@ -81,7 +81,7 @@ describe('mongooseCursorPagination', () => {
     expect(totalCount).toBe(2);
 
     expect(results2).toHaveLength(1);
-    expect(results2[0].node.body).toBe('2');
+    expect(results2[0].node.body).toBe('1');
     expect(pageInfo2.hasNextPage).toEqual(false);
   });
 
@@ -106,21 +106,32 @@ describe('mongooseCursorPagination', () => {
 
     const { totalCount, results, pageInfo } = await Comment.find({})
       .limit(3)
-      .sort('-date')
+      .sort('date')
       .paginate()
       .exec();
 
     expect(totalCount).toBe(3);
 
+    // fetch the second element from the last cursor
     const { results: results2, pageInfo: pageInfo2 } = await Comment.find({})
       .limit(1)
-      .sort('-date')
-      .paginate(null, results[1].cursor)
+      .sort('date')
+      .paginate(null, results[results.length - 1].cursor)
       .exec();
 
     expect(results2).toHaveLength(1);
-    expect(results2[0].node.body).toBe('1');
+    expect(results2[0].node.body).toBe('2');
     expect(pageInfo2.hasNextPage).toEqual(true);
+
+    const { results: results3, pageInfo: pageInfo3 } = await Comment.find({})
+      .limit(1)
+      .sort('date')
+      .paginate(null, pageInfo2.nextCursor)
+      .exec();
+
+    expect(results3).toHaveLength(1);
+    expect(results3[0].node.body).toBe('1');
+    expect(pageInfo3.hasNextPage).toEqual(true); // TODO: not working properly in reverse yet
   });
 
   it("Doesn't interfere with search (for now)", async () => {
