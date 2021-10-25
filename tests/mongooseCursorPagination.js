@@ -4,7 +4,7 @@ const Comment = mongoose.model('comment');
 
 describe('mongooseCursorPagination', () => {
   beforeEach(async () => {
-    await Comment.remove({});
+    await Comment.deleteMany({});
   });
 
   it('Works as expected', async () => {
