@@ -1,6 +1,6 @@
 {
   "name": "@openquantum/mongoose-cursor-pagination",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Easy-to-use, scalable, cursor pagination plugin for mongoose",
   "license": "MIT",
   "homepage": "https://github.com/mother/mongoose-cursor-pagination#readme",
@@ -51,15 +51,15 @@
     "lodash.get": "^4.4.2"
   },
   "devDependencies": {
-    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.4",
-    "jest": "^27.3.1",
-    "prettier": "^2.4.1",
-    "mongodb-memory-server": "^7.5.1",
-    "mongoose": "^6.0.12"
+    "jest": "^27.5.1",
+    "prettier": "^2.5.1",
+    "mongodb-memory-server": "^8.4.0",
+    "mongoose": "^6.2.3"
   },
   "peerDependencies": {
-    "mongoose": "^6.0.12"
+    "mongoose": "^6.2.3"
   }
 }
