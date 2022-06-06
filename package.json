@@ -51,15 +51,15 @@
     "lodash.get": "^4.4.2"
   },
   "devDependencies": {
-    "eslint-config-prettier": "^8.4.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "husky": "^7.0.4",
-    "jest": "^27.5.1",
-    "prettier": "^2.5.1",
-    "mongodb-memory-server": "^8.4.0",
-    "mongoose": "^6.2.3"
+    "husky": "^8.0.1",
+    "jest": "^28.1.0",
+    "prettier": "^2.6.2",
+    "mongodb-memory-server": "^8.6.0",
+    "mongoose": "^6.3.5"
   },
   "peerDependencies": {
-    "mongoose": "^6.2.3"
+    "mongoose": "^6.3.5"
   }
 }
