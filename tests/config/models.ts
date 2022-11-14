@@ -1,7 +1,7 @@
-const mongoose = require('mongoose')
-const paginationPlugin = require('../../lib')
+import mongoose from 'mongoose'
+import paginationPlugin from '../../lib'
 
-const commentSchema = new mongoose.Schema({
+const CommentSchema = new mongoose.Schema({
    date: { type: Date, default: Date.now, required: true },
    body: { type: String, required: true },
    author: {
@@ -11,13 +11,13 @@ const commentSchema = new mongoose.Schema({
 })
 
 // Text index for full-text searching
-commentSchema.index({
+CommentSchema.index({
    body: 'text',
    'author.firstName': 'text',
    'author.lastName': 'text'
 })
 
 // Our very own pagination plugin
-commentSchema.plugin(paginationPlugin)
+CommentSchema.plugin(paginationPlugin)
 
-mongoose.model('comment', commentSchema)
+mongoose.model('comment', CommentSchema)

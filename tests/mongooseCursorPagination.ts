@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const Comment = mongoose.model('comment');
 
@@ -104,7 +104,7 @@ describe('mongooseCursorPagination', () => {
       'author.lastName': 'Doe',
     });
 
-    const { totalCount, results, pageInfo } = await Comment.find({})
+    const { totalCount, results } = await Comment.find({})
       .limit(3)
       .sort('date')
       .paginate()

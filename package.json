@@ -1,6 +1,6 @@
 {
-  "name": "@openquantum/mongoose-cursor-pagination",
-  "version": "0.2.8",
+  "name": "@conpagoaus/mongoose-cursor-pagination",
+  "version": "0.3.0",
   "description": "Easy-to-use, scalable, cursor pagination plugin for mongoose",
   "license": "MIT",
   "homepage": "https://github.com/mother/mongoose-cursor-pagination#readme",
@@ -27,23 +27,24 @@
     "test": "test"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "files": [
     "lib"
   ],
-  "main": "lib/index.js",
+  "main": "build/index.js",
   "scripts": {
-    "lint": "git diff HEAD --name-only --diff-filter=ACM | grep '.js$' | xargs node ./node_modules/eslint/bin/eslint.js --quiet",
-    "lint-full": "node ./node_modules/eslint/bin/eslint.js .",
+    "prepare": "tsc",
+    "lint": "eslint --quiet",
+    "lint-full": "eslint .",
     "test": "jest --forceExit --detectOpenHandles --config ./tests/config/index.js"
   },
   "husky": {
     "hooks": {
-      "post-merge": "npm install",
-      "post-receive": "npm install",
-      "post-rewrite": "npm install",
-      "pre-commit": "npm run lint && npm audit"
+      "post-merge": "yarn install",
+      "post-receive": "yarn install",
+      "post-rewrite": "yarn install",
+      "pre-commit": "yarn run lint && yarn audit"
     }
   },
   "dependencies": {
@@ -51,15 +52,21 @@
     "lodash.get": "^4.4.2"
   },
   "devDependencies": {
+    "@types/jest": "^29.2.2",
+    "@types/node": "^18.11.9",
+    "eslint": "^8.27.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "husky": "^8.0.1",
-    "jest": "^28.1.0",
-    "prettier": "^2.6.2",
-    "mongodb-memory-server": "^8.6.0",
-    "mongoose": "^6.3.5"
+    "eslint-plugin-jest": "^27.1.4",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.2",
+    "jest": "^29.3.1",
+    "mongodb-memory-server": "^8.10.0",
+    "mongoose": "^6.7.2",
+    "prettier": "^2.7.1",
+    "ts-jest": "^29.0.3",
+    "typescript": "4.8"
   },
   "peerDependencies": {
-    "mongoose": "^6.3.5"
+    "mongoose": "^6.7.2"
   }
 }

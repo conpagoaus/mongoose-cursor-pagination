@@ -1,8 +1,8 @@
-const base64url = require('base64-url');
-const mongoose = require('mongoose');
+import base64url from 'base64-url';
+import mongoose from 'mongoose';
 
 // We generate a base64-encoded JSON string
-exports.generateCursorStr = (cursorObj) => {
+export const generateCursorStr = (cursorObj: { [x: string]: any }) => {
   const simplifiedCursorObj = Object.keys(cursorObj).reduce(
     (result, cursorKey) => {
       const val = cursorObj[cursorKey];
@@ -27,7 +27,14 @@ exports.generateCursorStr = (cursorObj) => {
   return base64url.encode(JSON.stringify(simplifiedCursorObj));
 };
 
-exports.parseCursorStr = (cursorStr, schema) => {
+export const parseCursorStr = (
+  cursorStr: any,
+  schema: {
+    query?: { paginate: (after?: undefined, before?: undefined) => any };
+    pre?: (arg0: string, arg1: () => void) => void;
+    path?: any;
+  }
+) => {
   const cursorPlainText = base64url.decode(cursorStr);
   const cursorObj = JSON.parse(cursorPlainText);
 
@@ -48,7 +55,10 @@ exports.parseCursorStr = (cursorStr, schema) => {
   return cursorObj;
 };
 
-exports.transformCursorIntoConditions = ({ cursorObj = {}, sortObj = {} }) => {
+export const transformCursorIntoConditions = ({
+  cursorObj = {},
+  sortObj = {},
+}) => {
   const cursorKeys = Object.keys(cursorObj);
   const sortKeys = Object.keys(sortObj);
   if (!cursorKeys.every((key) => sortKeys.includes(key))) {
@@ -78,7 +88,15 @@ exports.transformCursorIntoConditions = ({ cursorObj = {}, sortObj = {} }) => {
   return cursorConditions;
 };
 
-exports.applyConditionsToQuery = (cursorConditions = [], query) => {
+export const applyConditionsToQuery = (
+  cursorConditions = [],
+  query: {
+    where: (arg0: any) => void;
+    getQuery: () => any;
+    setQuery: (arg0: any) => void;
+    _conditions: { $or: any };
+  }
+) => {
   if (cursorConditions.length === 1) {
     query.where(cursorConditions[0]);
   } else if (cursorConditions.length > 1) {

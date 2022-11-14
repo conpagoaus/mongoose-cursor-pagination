@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2015",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "resolveJsonModule": true,
+    "importHelpers": false,
+    "outDir": "build",
+    "esModuleInterop": true
+  },
+  "include": ["lib/**/*.ts"],
+  "exclude": ["node_modules", "src/**/*.test.ts"]
+}

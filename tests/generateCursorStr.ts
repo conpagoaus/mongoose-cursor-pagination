@@ -1,6 +1,6 @@
-const base64url = require('base64-url')
-const mongoose = require('mongoose')
-const { generateCursorStr } = require('../lib/utils')
+import base64url from 'base64-url'
+import mongoose from 'mongoose'
+import { generateCursorStr } from '../lib/utils'
 
 describe('utils#generateCursorStr', () => {
    it('Works with simple cursor data', () => {
@@ -17,7 +17,7 @@ describe('utils#generateCursorStr', () => {
    })
 
    it('Is able to serialize Object Ids as strings', () => {
-      const cursorObj = { _id: mongoose.Types.ObjectId('5b06b90b42a0b29ba10f20c2') }
+      const cursorObj = { _id: new mongoose.Types.ObjectId('5b06b90b42a0b29ba10f20c2') }
       const cursorStr = generateCursorStr(cursorObj, {})
       expect(cursorStr).toBe(base64url.encode('{"_id":"5b06b90b42a0b29ba10f20c2"}'))
    })

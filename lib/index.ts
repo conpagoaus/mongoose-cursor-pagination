@@ -1,22 +1,28 @@
-const get = require('lodash.get');
+import get from 'lodash.get';
 const {
   Types: { ObjectId },
 } = require('mongoose');
-const {
+import {
   applyConditionsToQuery,
   generateCursorStr,
   parseCursorStr,
   transformCursorIntoConditions,
-} = require('./utils');
+} from './utils';
 
-const createCursorObj = (lastResult, sort) => {
+const createCursorObj = (lastResult: any, sort: {}) => {
   return Object.keys(sort).reduce((result, sortKey) => {
     result[sortKey] = get(lastResult, sortKey);
     return result;
   }, {});
 };
 
-const clone = (obj) => {
+const clone = (
+  obj: {
+    [x: string]: any;
+    constructor: () => any;
+    hasOwnProperty: (arg0: string) => any;
+  } | null
+) => {
   if (null == obj || 'object' != typeof obj) return obj;
   let copy = obj.constructor();
   for (var attr in obj) {
@@ -26,11 +32,20 @@ const clone = (obj) => {
   return copy;
 };
 
-module.exports = (schema, { defaultLimit = 100 } = {}) => {
+export default (
+  schema: {
+    query: { paginate: (after?: undefined, before?: undefined) => any };
+    pre: (arg0: string, arg1: () => void) => void;
+  },
+  { defaultLimit = 100 } = {}
+) => {
   // Custom query .exec that wraps the results in an object,
   // determines the pagination data, and returns the wrapped
   // object.
-  const newExec = async function (_origExec, ...args) {
+  const newExec = async function (
+    _origExec: { call: (arg0: any, arg1: any) => any },
+    ...args: any[]
+  ) {
     const query = this;
     let results = await _origExec.call(this, ...args);
 
@@ -59,7 +74,7 @@ module.exports = (schema, { defaultLimit = 100 } = {}) => {
     const hasPreviousPage = !!after;
     if (before) results = results.reverse();
 
-    results = results.map((v) => {
+    results = results.map((v: any) => {
       const nextCursorObj = createCursorObj(v, sort);
       return {
         cursor: generateCursorStr(nextCursorObj),

@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const { applyConditionsToQuery } = require('../lib/utils')
+import mongoose from 'mongoose'
+import { applyConditionsToQuery } from '../lib/utils'
 
 const Comment = mongoose.model('comment')
 

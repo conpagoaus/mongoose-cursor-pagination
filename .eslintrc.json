@@ -15,5 +15,14 @@
     "no-underscore-dangle": "off",
     "func-names": "off",
     "camelcase": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["tests/**"],
+      "plugins": ["jest"],
+      "env": {
+        "jest/globals": true
+      }
+    }
+  ]
 }

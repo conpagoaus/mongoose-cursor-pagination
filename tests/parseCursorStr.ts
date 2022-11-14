@@ -1,6 +1,6 @@
-const base64url = require('base64-url')
-const mongoose = require('mongoose')
-const { parseCursorStr } = require('../lib/utils')
+import base64url from 'base64-url'
+import mongoose from 'mongoose'
+import { parseCursorStr } from '../lib/utils'
 
 const Comment = mongoose.model('comment')
 const commentSchema = Comment.schema
