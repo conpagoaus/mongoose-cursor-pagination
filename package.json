@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "base64-url": "^2.3.3",
+    "dataloader": "^2.1.0",
     "lodash.get": "^4.4.2"
   },
   "devDependencies": {
