@@ -1,7 +1,5 @@
 import get from 'lodash.get';
-const {
-  Types: { ObjectId },
-} = require('mongoose');
+import { Types } from 'mongoose';
 import {
   applyConditionsToQuery,
   generateCursorStr,
@@ -26,7 +24,8 @@ const clone = (
   if (null == obj || 'object' != typeof obj) return obj;
   let copy = obj.constructor();
   for (var attr in obj) {
-    if (ObjectId.isValid(obj[attr])) copy[attr] = new ObjectId(obj[attr]);
+    if (Types.ObjectId.isValid(obj[attr]))
+      copy[attr] = new Types.ObjectId(obj[attr]);
     else if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
   }
   return copy;
