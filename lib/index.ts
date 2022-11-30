@@ -14,22 +14,22 @@ const createCursorObj = (lastResult: any, sort: {}) => {
   }, {});
 };
 
-const clone = (
-  obj: {
-    [x: string]: any;
-    constructor: () => any;
-    hasOwnProperty: (arg0: string) => any;
-  } | null
-) => {
-  if (null == obj || 'object' != typeof obj) return obj;
-  let copy = obj.constructor();
-  for (var attr in obj) {
-    if (Types.ObjectId.isValid(obj[attr]))
-      copy[attr] = new Types.ObjectId(obj[attr]);
-    else if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
-  }
-  return copy;
-};
+// const clone = (
+//   obj: {
+//     [x: string]: any;
+//     constructor: () => any;
+//     hasOwnProperty: (arg0: string) => any;
+//   } | null
+// ) => {
+//   if (null == obj || 'object' != typeof obj) return obj;
+//   let copy = obj.constructor();
+//   for (var attr in obj) {
+//     if (Types.ObjectId.isValid(obj[attr]))
+//       copy[attr] = new Types.ObjectId(obj[attr]);
+//     else if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+//   }
+//   return copy;
+// };
 
 export default (
   schema: {
@@ -46,12 +46,12 @@ export default (
     ...args: any[]
   ) {
     const query = this;
-    let results = await _origExec.call(this, ...args);
 
     const totalCount = await query.mongooseCollection.countDocuments(
-      query._origConditions
+      query.__origConditions
     );
 
+    let results = await _origExec.call(this, ...args);
     // Currently this plugin doesn't handle full-text search pagination
     if (query.__paginationPlugin.isFullTextSearchQuery) {
       return {
@@ -103,9 +103,11 @@ export default (
       throw new Error('Cannot paginate on any operations other than find');
     }
 
+    query.__origConditions = Object.assign({}, query._conditions);
+
     query.__paginationPlugin = { after, before };
 
-    query._origConditions = clone(query._conditions);
+    // query._origConditions = clone(query._conditions);
 
     // Replace the .exec fn with our custom exec
     const origExec = query.exec;
