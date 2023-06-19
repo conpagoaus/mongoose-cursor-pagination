@@ -2,7 +2,7 @@ import base64url from 'base64-url';
 import mongoose from 'mongoose';
 
 // We generate a base64-encoded JSON string
-export const generateCursorStr = (cursorObj: { [x: string]: any }) => {
+export const generateCursorStr = (cursorObj: { [x: string]: any }): string => {
   const simplifiedCursorObj = Object.keys(cursorObj).reduce(
     (result, cursorKey) => {
       const val = cursorObj[cursorKey];
@@ -34,7 +34,7 @@ export const parseCursorStr = (
     pre?: (arg0: string, arg1: () => void) => void;
     path?: any;
   }
-) => {
+): object => {
   const cursorPlainText = base64url.decode(cursorStr);
   const cursorObj = JSON.parse(cursorPlainText);
 
@@ -58,7 +58,7 @@ export const parseCursorStr = (
 export const transformCursorIntoConditions = ({
   cursorObj = {},
   sortObj = {},
-}) => {
+}): object[] => {
   const cursorKeys = Object.keys(cursorObj);
   const sortKeys = Object.keys(sortObj);
   if (!cursorKeys.every((key) => sortKeys.includes(key))) {

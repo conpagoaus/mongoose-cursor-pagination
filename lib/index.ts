@@ -1,5 +1,5 @@
 import get from 'lodash.get';
-import { Types } from 'mongoose';
+import { Types, Query } from 'mongoose';
 import {
   applyConditionsToQuery,
   generateCursorStr,
@@ -51,6 +51,7 @@ export default (
       query.__origConditions
     );
 
+    //@ts-ignore
     let results = await _origExec.call(this, ...args);
     // Currently this plugin doesn't handle full-text search pagination
     if (query.__paginationPlugin.isFullTextSearchQuery) {
@@ -97,8 +98,11 @@ export default (
   };
 
   // Query Helper
-  schema.query.paginate = function (after = undefined, before = undefined) {
-    const query = this;
+  schema.query.paginate = function (
+    after = undefined,
+    before = undefined
+  ): typeof Query {
+    const query: typeof Query = this;
     if (query.op !== 'find') {
       throw new Error('Cannot paginate on any operations other than find');
     }
